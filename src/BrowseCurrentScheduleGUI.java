@@ -8,24 +8,37 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JSeparator;
+import javax.swing.JComboBox;
+import javax.swing.JInternalFrame;
+import java.awt.GridLayout;
+import java.awt.FlowLayout;
+import net.miginfocom.swing.MigLayout;
+import javax.swing.BoxLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.BorderLayout;
 
 public class BrowseCurrentScheduleGUI extends JFrame {
 
 	private JPanel contentPane;
 	private JLabel lblCurrentSchedule;
-	private JList<Course> lstCurrentSchedule;
-	private JScrollPane spScroll;
+
 	private JButton btnDelete;
 	private JButton btnCancel;
+	private JList<Course> scheduleJList;
 	private static BrowseCurrentScheduleGUI Instance;
 
 	/**
 	 * Create the frame.
 	 */
-	public BrowseCurrentScheduleGUI() {
+	private BrowseCurrentScheduleGUI() {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -40,12 +53,7 @@ public class BrowseCurrentScheduleGUI extends JFrame {
 		lblCurrentSchedule.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lblCurrentSchedule);
 		
-		spScroll = new JScrollPane();
-		spScroll.setBounds(40, 71, 360, 143);
-		contentPane.add(spScroll);
 		
-		lstCurrentSchedule = new JList<Course>();
-		spScroll.setViewportView(lstCurrentSchedule);
 		
 		btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
@@ -64,6 +72,22 @@ public class BrowseCurrentScheduleGUI extends JFrame {
 		});
 		btnCancel.setBounds(311, 225, 89, 23);
 		contentPane.add(btnCancel);
+		
+		
+		
+		DefaultListModel<Course> listModel = new DefaultListModel<Course>();
+		for(Course i:PersonalSchedule.getInstance().getSchedule()) {
+			System.out.println(i.getCourseID());
+			listModel.addElement(i);
+		}
+		scheduleJList = new JList<Course>(listModel);
+		scheduleJList.setCellRenderer(new CustomListCellRenderer());
+		
+	
+		JScrollPane scrollPane = new JScrollPane(scheduleJList);
+		scrollPane.setBounds(40, 55, 360, 159);
+		contentPane.add(scrollPane);
+		
 	}
 	
 	public static BrowseCurrentScheduleGUI getInstance() {
@@ -72,5 +96,4 @@ public class BrowseCurrentScheduleGUI extends JFrame {
 		}
 		return Instance;
 	}
-
 }

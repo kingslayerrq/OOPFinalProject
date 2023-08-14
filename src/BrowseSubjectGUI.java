@@ -6,24 +6,28 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JList;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+import javax.swing.JComboBox;
+import javax.swing.JScrollPane;
 
 public class BrowseSubjectGUI extends JFrame {
 
 	private JPanel contentPane;
 	private JLabel lblSubjectTitle;
-	private JList<String> lstSubjectList;
-	private JButton btnViewClass;
+	private JList<Course> lstSubjectCoursesList;
 	private JButton btnCancel;
 	private static BrowseSubjectGUI Instance;
+	private JComboBox<String> cmboSubject;
+	private JScrollPane spScroll;
 
 	/**
 	 * Create the frame.
 	 */
-	public BrowseSubjectGUI() {
+	private BrowseSubjectGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -34,33 +38,59 @@ public class BrowseSubjectGUI extends JFrame {
 		
 		lblSubjectTitle = new JLabel("Subjects");
 		lblSubjectTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		lblSubjectTitle.setBounds(156, 11, 122, 37);
-		lblSubjectTitle.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblSubjectTitle.setBounds(40, 29, 122, 37);
+		lblSubjectTitle.setFont(new Font("Tahoma", Font.BOLD, 14));
 		contentPane.add(lblSubjectTitle);
 		
-		lstSubjectList = new JList<String>();
-		lstSubjectList.setBounds(40, 71, 360, 143);
-		contentPane.add(lstSubjectList);
+		cmboSubject = new JComboBox<String>();
+		cmboSubject.addItem("");
+		//add subject to the comboBox
+		for(String i:CourseLib.getInstance().getAllSubjects()) {
+			cmboSubject.addItem(i);
+		}
+		cmboSubject.setBounds(220, 38, 156, 22);
+		contentPane.add(cmboSubject);
 		
-		btnViewClass = new JButton("View Classes");
-		btnViewClass.addActionListener(new ActionListener() {
+		//default comboBox and JList
+		DefaultListModel<Course> listModel = new DefaultListModel<Course>();
+		String curSelectedSubject = (String)cmboSubject.getSelectedItem();
+		for(Course i:CourseLib.getInstance().getCourseBySubject(curSelectedSubject)) {
+			listModel.addElement(i);
+		}
+		lstSubjectCoursesList = new JList<Course>(listModel);
+		lstSubjectCoursesList.setCellRenderer(new CustomListCellRenderer());
+		
+		
+		//update JList when select new item from comboBox
+		cmboSubject.addActionListener(new ActionListener() {
+			
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				BrowseSubjectGUI.getInstance().setVisible(false);         				//not disposing 
-				SearchResultGUI.getInstance().setVisible(true);
+				// TODO Auto-generated method stub
+				String newSelectedSubject = (String)cmboSubject.getSelectedItem();
+				updateJList(newSelectedSubject, listModel);
 			}
 		});
-		btnViewClass.setBounds(40, 225, 113, 23);
-		contentPane.add(btnViewClass);
+		
+
+		spScroll = new JScrollPane(lstSubjectCoursesList);
+		spScroll.setBounds(40, 71, 360, 143);
+		contentPane.add(spScroll);
 		
 		btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BrowseSubjectGUI.getInstance().dispose();
+				Instance.clear();                                               //clear the comboBox selection
+				Instance.dispose();
 				SearchClassGUI.getInstance().setVisible(true);
 			}
 		});
-		btnCancel.setBounds(287, 225, 113, 23);
+		btnCancel.setBounds(170, 225, 89, 23);
 		contentPane.add(btnCancel);
+		
+		
+		
+		
 	}
 	
 	public static BrowseSubjectGUI getInstance() {
@@ -68,5 +98,17 @@ public class BrowseSubjectGUI extends JFrame {
 			Instance = new BrowseSubjectGUI();
 		}
 		return Instance;
+	}
+	
+	public void updateJList(String curSelectedSubject, DefaultListModel<Course> listModel) {
+		// clear and populate the list
+		listModel.clear();                 
+		for(Course i:CourseLib.getInstance().getCourseBySubject(curSelectedSubject)) {
+			listModel.addElement(i);
+		}
+	}
+	
+	public void clear() {
+		cmboSubject.setSelectedIndex(0);
 	}
 }

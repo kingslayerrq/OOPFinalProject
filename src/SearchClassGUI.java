@@ -3,12 +3,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.html.HTMLEditorKit.InsertHTMLTextAction;
 import javax.swing.JButton;
-import java.awt.FlowLayout;
 
-import javax.security.auth.Subject;
-import javax.swing.BoxLayout;
-import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -19,25 +16,12 @@ public class SearchClassGUI extends JFrame {
 	private JButton btnSearchName;
 	private JButton btnCancel;
 	private static SearchClassGUI Instance;
-	private SearchClassOption option;
-	public enum SearchClassOption{
-		Subject,
-		ClassName
-	}
 	
-
-	public SearchClassOption getOption() {
-		return option;
-	}
-
-	public void setOption(SearchClassOption option) {
-		this.option = option;
-	}
 
 	/**
 	 * Create the frame.
 	 */
-	public SearchClassGUI() {
+	private SearchClassGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -49,8 +33,8 @@ public class SearchClassGUI extends JFrame {
 		btnBrowseSubject = new JButton("Browse By Subject");
 		btnBrowseSubject.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SearchClassGUI.getInstance().setOption(SearchClassOption.Subject);                         //set the option for reference when returning
-				SearchClassGUI.getInstance().setVisible(false);												//not disposing
+				                       
+				Instance.setVisible(false);												//not disposing
 				BrowseSubjectGUI.getInstance().setVisible(true);;
 
 				
@@ -62,8 +46,8 @@ public class SearchClassGUI extends JFrame {
 		btnSearchName = new JButton("Search By Class Name");
 		btnSearchName.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SearchClassGUI.getInstance().setOption(SearchClassOption.ClassName);               
-				SearchClassGUI.getInstance().setVisible(false);
+				           
+				Instance.setVisible(false);
 				SearchClassNameGUI.getInstance().setVisible(true);
 			}
 		});
@@ -87,5 +71,6 @@ public class SearchClassGUI extends JFrame {
 		}
 		return Instance;
 	}
-
+	
+	
 }

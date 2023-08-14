@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -26,7 +27,7 @@ public class AddNewClassGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AddNewClassGUI() {
+	private AddNewClassGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -49,6 +50,20 @@ public class AddNewClassGUI extends JFrame {
 		btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String courseidString = txtClassID.getText();
+				if(CourseLib.getInstance().validateCourseID(courseidString)) {
+					// Add course to Personal Schedule
+					Course courseToAddCourse = CourseLib.getInstance().getCourseByID(courseidString);
+					if(PersonalSchedule.getInstance().addCoursetoSchedule(courseToAddCourse)) {
+						JOptionPane.showMessageDialog(Instance, "Successfully added to your schedule", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);  		//show success Msg when valid courseID is input and not having dupe in schedule
+					}
+					else {
+						JOptionPane.showMessageDialog(Instance, "You Already Added this course to your schedule!", "WARNING", JOptionPane.WARNING_MESSAGE);
+					}	
+				}
+				else {
+					JOptionPane.showMessageDialog(Instance, "Invalid CourseID", "ERROR", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		btnAdd.setBounds(85, 176, 89, 23);
@@ -57,7 +72,8 @@ public class AddNewClassGUI extends JFrame {
 		btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AddNewClassGUI.getInstance().dispose();                 //exit out of the current GUI	
+				Instance.clear();				//dispose doesn't clear the text field
+				Instance.dispose();                 //exit out of the current GUI	
 				MainGUI.getInstance().setVisible(true);						//set mainGUI back to visible
 			}
 		});
@@ -69,5 +85,9 @@ public class AddNewClassGUI extends JFrame {
 			Instance = new AddNewClassGUI();
 		}
 		return Instance;
+	}
+	
+	public void clear() {
+		txtClassID.setText("");
 	}
 }

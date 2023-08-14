@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import java.awt.Font;
@@ -15,6 +16,7 @@ public class SearchClassNameGUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtClassName;
+	private String searchParamToPassOn;
 	private JLabel lblClassName;
 	private JLabel lblSearchClassNameTitle;
 	private JButton btnSearch;
@@ -24,7 +26,7 @@ public class SearchClassNameGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public SearchClassNameGUI() {
+	private SearchClassNameGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -54,8 +56,17 @@ public class SearchClassNameGUI extends JFrame {
 		btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SearchClassNameGUI.getInstance().setVisible(false);          					//not disposing
-				SearchResultGUI.getInstance().setVisible(true);
+				if (CourseLib.getInstance().getCourseByName(txtClassName.getText()).size()>0) {        // when we entered a valid course name
+					searchParamToPassOn = txtClassName.getText();
+					Instance.setVisible(false);          					//not disposing, need to pass search parameter for SearchResultGUI
+					
+					SearchResultGUI.getInstance().update(searchParamToPassOn, SearchResultGUI.getInstance().getListModel());
+					SearchResultGUI.getInstance().setVisible(true);
+				
+				}
+				else {
+					JOptionPane.showMessageDialog(Instance, "CourseName doesn't exist", "ERROR", JOptionPane.ERROR_MESSAGE);            //throw an error
+				}
 			}
 		});
 		btnSearch.setBounds(62, 200, 89, 23);
@@ -64,7 +75,8 @@ public class SearchClassNameGUI extends JFrame {
 		btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SearchClassNameGUI.getInstance().dispose();
+				Instance.clear();
+				Instance.dispose();
 				SearchClassGUI.getInstance().setVisible(true);
 			}
 		});
@@ -72,11 +84,25 @@ public class SearchClassNameGUI extends JFrame {
 		contentPane.add(btnCancel);
 	}
 	
+	
+	public String getSearchParamToPassOn() {
+		return searchParamToPassOn;
+	}
+
+	public void setSearchParamToPassOn(String searchParamToPassOn) {
+		this.searchParamToPassOn = searchParamToPassOn;
+	}
+	
+	
 	public static SearchClassNameGUI getInstance() {
 		if (Instance == null) {
 			Instance = new SearchClassNameGUI();
 		}
 		return Instance;
+	}
+
+	public void clear() {
+		txtClassName.setText("");
 	}
 
 }

@@ -54,7 +54,7 @@ public class MainGUI extends JFrame {
 		btnSearchClass.setBounds(128, 120, 180, 23);
 		btnSearchClass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MainGUI.getInstance().setVisible(false);
+				Instance.setVisible(false);
 				SearchClassGUI.getInstance().setVisible(true);
 				
 			}
@@ -63,7 +63,7 @@ public class MainGUI extends JFrame {
 		btnAddNewClass = new JButton("Add New Class");
 		btnAddNewClass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MainGUI.getInstance().setVisible(false);		
+				Instance.setVisible(false);		
 				AddNewClassGUI.getInstance().setVisible(true);
 				
 			}
@@ -73,7 +73,7 @@ public class MainGUI extends JFrame {
 		btnCurrentSchedule = new JButton("Current Schedule");
 		btnCurrentSchedule.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MainGUI.getInstance().setVisible(false);
+				Instance.setVisible(false);
 				BrowseCurrentScheduleGUI.getInstance().setVisible(true);
 			}
 		});
