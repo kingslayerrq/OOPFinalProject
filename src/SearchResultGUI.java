@@ -18,7 +18,7 @@ import java.awt.event.ActionEvent;
 
 public class SearchResultGUI extends JFrame {
 	
-	private String searchParam;
+	
 	private JPanel contentPane;
 	private JLabel lblSearchResultTitle;
 	private JScrollPane spScroll;

@@ -13,23 +13,13 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JSeparator;
-import javax.swing.JComboBox;
-import javax.swing.JInternalFrame;
-import java.awt.GridLayout;
-import java.awt.FlowLayout;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.BoxLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.BorderLayout;
+
 
 public class BrowseCurrentScheduleGUI extends JFrame {
 
 	private JPanel contentPane;
 	private JLabel lblCurrentSchedule;
-
+	private JScrollPane scrollPane;
 	private JButton btnDelete;
 	private JButton btnCancel;
 	private JList<Course> scheduleJList;
@@ -101,7 +91,7 @@ public class BrowseCurrentScheduleGUI extends JFrame {
 		scheduleJList.setCellRenderer(new CustomListCellRenderer());
 		
 	
-		JScrollPane scrollPane = new JScrollPane(scheduleJList);
+		scrollPane = new JScrollPane(scheduleJList);
 		scrollPane.setBounds(40, 55, 360, 159);
 		contentPane.add(scrollPane);
 		
