@@ -17,7 +17,7 @@ public  class CustomListCellRenderer extends DefaultListCellRenderer{
             JLabel courseSubjectJLabel = new JLabel(course.getSubject());
             JLabel courseNameJLabel = new JLabel(course.getCourseName());
             JLabel courseProfJLabel = new JLabel(course.getProfName()); 
-            JLabel courseCreditJLabel = new JLabel(Float.toString(course.getCredit()));
+            JLabel courseCreditJLabel = new JLabel(course.getCredit());
             panel.add(courseIDJLabel);
             panel.add(courseSubjectJLabel);
             panel.add(courseNameJLabel);

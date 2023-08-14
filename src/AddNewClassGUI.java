@@ -55,6 +55,7 @@ public class AddNewClassGUI extends JFrame {
 					// Add course to Personal Schedule
 					Course courseToAddCourse = CourseLib.getInstance().getCourseByID(courseidString);
 					if(PersonalSchedule.getInstance().addCoursetoSchedule(courseToAddCourse)) {
+						BrowseCurrentScheduleGUI.getInstance().update();
 						JOptionPane.showMessageDialog(Instance, "Successfully added to your schedule", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);  		//show success Msg when valid courseID is input and not having dupe in schedule
 					}
 					else {

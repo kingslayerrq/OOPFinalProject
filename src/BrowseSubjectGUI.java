@@ -53,7 +53,9 @@ public class BrowseSubjectGUI extends JFrame {
 		
 		//default comboBox and JList
 		DefaultListModel<Course> listModel = new DefaultListModel<Course>();
+		
 		String curSelectedSubject = (String)cmboSubject.getSelectedItem();
+		listModel.addElement(CourseLib.titleCourse);                        //header
 		for(Course i:CourseLib.getInstance().getCourseBySubject(curSelectedSubject)) {
 			listModel.addElement(i);
 		}
@@ -102,7 +104,8 @@ public class BrowseSubjectGUI extends JFrame {
 	
 	public void updateJList(String curSelectedSubject, DefaultListModel<Course> listModel) {
 		// clear and populate the list
-		listModel.clear();                 
+		listModel.clear();     
+		listModel.addElement(CourseLib.titleCourse);                    //header
 		for(Course i:CourseLib.getInstance().getCourseBySubject(curSelectedSubject)) {
 			listModel.addElement(i);
 		}

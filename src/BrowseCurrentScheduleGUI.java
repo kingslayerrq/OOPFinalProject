@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -32,7 +33,9 @@ public class BrowseCurrentScheduleGUI extends JFrame {
 	private JButton btnDelete;
 	private JButton btnCancel;
 	private JList<Course> scheduleJList;
+	private DefaultListModel<Course> listModel;
 	private static BrowseCurrentScheduleGUI Instance;
+	
 
 	/**
 	 * Create the frame.
@@ -58,6 +61,19 @@ public class BrowseCurrentScheduleGUI extends JFrame {
 		btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Course curSelectedCourse = scheduleJList.getSelectedValue();
+				if(!curSelectedCourse.getCourseID().equals(CourseLib.titleCourse.getCourseID())) {
+					if(PersonalSchedule.getInstance().deleteCourse(curSelectedCourse)) {
+						Instance.update();
+						JOptionPane.showMessageDialog(Instance, "Course Successfully Deleted", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+					}
+					else {
+						JOptionPane.showMessageDialog(Instance, "Deletion Error", "ERROR", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(Instance, "This is for Formatting reason. Please don't select this!", "WARN", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 		btnDelete.setBounds(40, 225, 89, 23);
@@ -66,7 +82,7 @@ public class BrowseCurrentScheduleGUI extends JFrame {
 		btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BrowseCurrentScheduleGUI.getInstance().dispose();
+				Instance.dispose();
 				MainGUI.getInstance().setVisible(true);
 			}
 		});
@@ -75,7 +91,8 @@ public class BrowseCurrentScheduleGUI extends JFrame {
 		
 		
 		
-		DefaultListModel<Course> listModel = new DefaultListModel<Course>();
+		listModel = new DefaultListModel<Course>();
+		
 		for(Course i:PersonalSchedule.getInstance().getSchedule()) {
 			System.out.println(i.getCourseID());
 			listModel.addElement(i);
@@ -95,5 +112,14 @@ public class BrowseCurrentScheduleGUI extends JFrame {
 			Instance = new BrowseCurrentScheduleGUI();
 		}
 		return Instance;
+	}
+	
+	public void update() {
+		// clear and populate the list
+		listModel.clear();         
+		
+		for(Course i:PersonalSchedule.getInstance().getSchedule()) {
+			listModel.addElement(i);
+		}
 	}
 }

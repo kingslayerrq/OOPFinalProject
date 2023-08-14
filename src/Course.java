@@ -4,10 +4,10 @@ public class Course {
 	private String courseName;
 	private String profName;
 	private String subject;
-	private float credit;
+	private String credit;
 	
 	
-	public Course(String courseID, String courseName, String profName, String subject, float credit) {
+	public Course(String courseID, String courseName, String profName, String subject, String credit) {
 
 		this.courseID = courseID;
 		this.courseName = courseName;
@@ -40,10 +40,10 @@ public class Course {
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
-	public float getCredit() {
+	public String getCredit() {
 		return credit;
 	}
-	public void setCredit(float credit) {
+	public void setCredit(String credit) {
 		this.credit = credit;
 	}
 	

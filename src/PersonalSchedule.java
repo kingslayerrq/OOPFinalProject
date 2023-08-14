@@ -8,6 +8,7 @@ public class PersonalSchedule {
 	private PersonalSchedule() {
 		// TODO Auto-generated constructor stub
 		schedule = new ArrayList<Course>();
+		schedule.add(CourseLib.titleCourse);     //for title formatting
 	}
 	
 	// return true if we successfully added, false if already exists?
@@ -17,6 +18,16 @@ public class PersonalSchedule {
 			return true;
 		}
 		return false;
+	}
+	
+	public boolean deleteCourse(Course course) {
+		if(!schedule.contains(course)) {
+			return false;
+		}
+		else {
+			schedule.remove(course);
+			return true;
+		}
 	}
 	
 	public ArrayList<Course> getSchedule() {

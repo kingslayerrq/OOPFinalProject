@@ -52,6 +52,7 @@ public class SearchResultGUI extends JFrame {
 //			listModel.addElement(i);
 //		}
 		listModel = new DefaultListModel<Course>();
+
 		resultJList = new JList<Course>(listModel);
 		resultJList.setCellRenderer(new CustomListCellRenderer());
 		spScroll = new JScrollPane(resultJList);
@@ -95,6 +96,7 @@ public class SearchResultGUI extends JFrame {
 	public void update(String searchParam, DefaultListModel<Course> listModel) {
 		// clear and populate the list
 		listModel.clear();         
+		listModel.addElement(CourseLib.titleCourse);
 		for(Course i:CourseLib.getInstance().getCourseByName(searchParam)) {
 			listModel.addElement(i);
 		}
