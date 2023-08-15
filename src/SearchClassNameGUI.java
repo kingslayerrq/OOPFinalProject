@@ -56,16 +56,21 @@ public class SearchClassNameGUI extends JFrame {
 		btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (CourseLib.getInstance().getCourseByName(txtClassName.getText()).size()>0) {        // when we entered a valid course name
-					searchParamToPassOn = txtClassName.getText();
-					Instance.setVisible(false);          					//not disposing, need to pass search parameter for SearchResultGUI
+				if(!txtClassName.getText().equals("")) {
+					if (CourseLib.getInstance().getCourseByName(txtClassName.getText()).size()>0) {        // when we entered a valid course name
+						searchParamToPassOn = txtClassName.getText();
+						Instance.setVisible(false);          					//not disposing, need to pass search parameter for SearchResultGUI
+						
+						SearchResultGUI.getInstance().update(searchParamToPassOn, SearchResultGUI.getInstance().getListModel());
+						SearchResultGUI.getInstance().setVisible(true);
 					
-					SearchResultGUI.getInstance().update(searchParamToPassOn, SearchResultGUI.getInstance().getListModel());
-					SearchResultGUI.getInstance().setVisible(true);
-				
+					}
+					else {
+						JOptionPane.showMessageDialog(Instance, "CourseName doesn't exist", "ERROR", JOptionPane.ERROR_MESSAGE);            //throw an error
+					}
 				}
 				else {
-					JOptionPane.showMessageDialog(Instance, "CourseName doesn't exist", "ERROR", JOptionPane.ERROR_MESSAGE);            //throw an error
+					JOptionPane.showMessageDialog(Instance, "Please Enter Something!", "ERROR", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});

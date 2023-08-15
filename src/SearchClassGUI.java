@@ -16,7 +16,6 @@ public class SearchClassGUI extends JFrame {
 	private JButton btnSearchName;
 	private JButton btnCancel;
 	private static SearchClassGUI Instance;
-	
 
 	/**
 	 * Create the frame.

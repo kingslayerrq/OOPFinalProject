@@ -35,6 +35,7 @@ public class MainGUI extends JFrame {
 	private JButton btnAddNewClass;
 	private JButton btnSearchClass;
 	private JButton btnCurrentSchedule;
+	private JButton btnSearchFeedback;
 	private static MainGUI Instance;      //Singleton
 	
 	/**
@@ -51,7 +52,7 @@ public class MainGUI extends JFrame {
 		setContentPane(contentPane);
 		
 		btnSearchClass = new JButton("Course Search");
-		btnSearchClass.setBounds(128, 120, 180, 23);
+		btnSearchClass.setBounds(128, 100, 180, 23);
 		btnSearchClass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Instance.setVisible(false);
@@ -68,7 +69,7 @@ public class MainGUI extends JFrame {
 				
 			}
 		});
-		btnAddNewClass.setBounds(128, 70, 180, 23);
+		btnAddNewClass.setBounds(128, 50, 180, 23);
 		
 		btnCurrentSchedule = new JButton("Current Schedule");
 		btnCurrentSchedule.addActionListener(new ActionListener() {
@@ -77,11 +78,24 @@ public class MainGUI extends JFrame {
 				BrowseCurrentScheduleGUI.getInstance().setVisible(true);
 			}
 		});
-		btnCurrentSchedule.setBounds(128, 170, 180, 23);
+		btnCurrentSchedule.setBounds(128, 150, 180, 23);
+		
+		
+		btnSearchFeedback = new JButton("Feedback Search");
+		btnSearchFeedback.setBounds(128, 120, 180, 23);
+		btnSearchFeedback.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Instance.setVisible(false);
+				SearchFeedbackGUI.getInstance().setVisible(true);			
+			}
+		});
+		btnSearchFeedback.setBounds(128, 200, 180, 23);
+		
 		contentPane.setLayout(null);
 		contentPane.add(btnAddNewClass);
 		contentPane.add(btnSearchClass);
 		contentPane.add(btnCurrentSchedule);
+		contentPane.add(btnSearchFeedback);
 	}
 	
 	public static MainGUI getInstance() {
